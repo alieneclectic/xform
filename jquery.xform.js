@@ -5,11 +5,8 @@
 // version 1.1
 
 window.requestAnimFrame = (function() {
-    return window.requestAnimationFrame || //
-    window.webkitRequestAnimationFrame || //
-    window.mozRequestAnimationFrame || //
-    window.oRequestAnimationFrame || //
-    window.msRequestAnimationFrame || //
+    return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
     function(callback) {
         window.setTimeout(callback, 1000 / 60);
     };
@@ -20,6 +17,7 @@ window.requestAnimFrame = (function() {
 
         this.callback = callback;
         this.ticking = false;
+        this.animSetup = {};
         var self = this;
 
         // set default object
@@ -37,8 +35,16 @@ window.requestAnimFrame = (function() {
             origin : [50, 50], // [top, left] in %
             delay : 0
         }; // end config
-        if (settings) $.extend(config, settings);
-
+        
+        if (settings) { $.extend(config, settings); };
+        
+        // build animation object
+        this.animSetup["-webkit-transform-style"] = "preserve-3d";
+        settings.time ? this.animSetup["-webkit-transition-duration"] = config.time + "ms" : null;
+        settings.opacity ? this.animSetup["opacity"] = config.opacity : null;
+        settings.ease ? this.animSetup["-webkit-transition-timing-function"] = config.opacity : null;
+        settings.loop ? this.animSetup["-webkit-animation-iteration-count"] = config.loop : null;
+        
         this.requestTick = function() {
             if (!self.ticking) {// raf optimization : don't call animate if raf has not executed yet
                 requestAnimFrame(self.animate);
@@ -55,14 +61,14 @@ window.requestAnimFrame = (function() {
                 //"-webkit-perspective-origin" : config.origin[0] + "%" + config.origin[1] + "%" //
             });
             self.css({
-                "-webkit-transform-style" : "preserve-3d", //
-                "-webkit-transition-duration" : config.time + "ms", //
-                "-webkit-animation-iteration-count" : config.loop, //
-                "opacity" : config.opacity, //
-                "-webkit-transition-timing-function" : config.ease, //
-                "-webkit-transform" : "scale3d(" + config.scale[0] + ", " + config.scale[1] + ", " + config.scale[2] + ")" + //
-                " translate3d(" + config.x + "px," + config.y + "px," + config.z + "px)" + //
-                " rotate3d(" + config.rotate3d[0] + ", " + config.rotate3d[1] + ", " + config.rotate3d[2] + ", " + config.rotate3d[3] + "deg)" //
+                "-webkit-transform-style" : "preserve-3d",
+                "-webkit-transition-duration" : config.time + "ms",
+                "-webkit-animation-iteration-count" : config.loop,
+                "opacity" : config.opacity,
+                "-webkit-transition-timing-function" : config.ease,
+                "-webkit-transform" : "scale3d(" + config.scale[0] + ", " + config.scale[1] + ", " + config.scale[2] + ")" +
+                " translate3d(" + config.x + "px," + config.y + "px," + config.z + "px)" +
+                " rotate3d(" + config.rotate3d[0] + ", " + config.rotate3d[1] + ", " + config.rotate3d[2] + ", " + config.rotate3d[3] + "deg)"
             });
 
             // execute callback @ end of transition based on time passed in
