@@ -13,6 +13,22 @@ window.requestAnimFrame = (function() {
 })();
 
 (function($) {
+    
+    var config = {
+        x : 0,
+        y : 0,
+        z : 0, //
+        time : 0, // miliseconds
+        ease : "cubic-bezier(0.140, 0.870, 0.385, 1.000)", // Options: linear, ease, ease-in, ease-out, ease-in-out, cubic-bezier(0, 0, 0, 0)
+        loop : 1, //
+        scale : [1, 1, 1], // x, y, z
+        opacity : 1, //
+        rotate3d : [0, 0, 0, 0], // x, y, z, degrees
+        perspective : 1000, //
+        origin : [50, 50], // [top, left] in %
+        delay : 0
+    }; // end config
+    
     $.fn.xform = function(settings, callback) {
 
         this.callback = callback;
@@ -21,20 +37,7 @@ window.requestAnimFrame = (function() {
         var self = this;
 
         // set default object
-        var config = {
-            x : 0,
-            y : 0,
-            z : 0, //
-            time : 0, // miliseconds
-            ease : "cubic-bezier(0.140, 0.870, 0.385, 1.000)", // Options: linear, ease, ease-in, ease-out, ease-in-out, cubic-bezier(0, 0, 0, 0)
-            loop : 1, //
-            scale : [1, 1, 1], // x, y, z
-            opacity : 1, //
-            rotate3d : [0, 0, 0, 0], // x, y, z, degrees
-            perspective : 1000, //
-            origin : [50, 50], // [top, left] in %
-            delay : 0
-        }; // end config
+        
         
         if (settings) { $.extend(config, settings); };
         
