@@ -60,8 +60,8 @@ window.requestAnimFrame = (function() {
             self.ticking = false;
 
             self.parent().css({
-                //"-webkit-perspective" : config.perspective, //
-                //"-webkit-perspective-origin" : config.origin[0] + "%" + config.origin[1] + "%" //
+                "-webkit-perspective" : config.perspective, //
+                "-webkit-perspective-origin" : config.origin[0] + "%" + config.origin[1] + "%" //
             });
             self.css({
                 "-webkit-transform-style" : "preserve-3d",
